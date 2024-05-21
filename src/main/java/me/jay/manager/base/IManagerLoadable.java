@@ -1,4 +1,4 @@
-package me.jay.api.manager;
+package me.jay.manager.base;
 
 /**
  * An interface to load a manager

@@ -1,7 +1,10 @@
-package me.jay.manager;
+package me.jay.manager.impl;
 
 import me.jay.Mirage;
-import me.jay.api.manager.IManagerLoadable;
+import me.jay.event.client.KeyPressEvent;
+import me.jay.manager.base.IManagerLoadable;
+import me.jay.module.base.Module;
+import me.zero.alpine.listener.Listener;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
@@ -33,10 +36,10 @@ public class ModuleManager implements IManagerLoadable {
                 modules.put(clazz, module);
 
                 Mirage.clientLogger.info("Loaded module: {}", clazz.getSimpleName());
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (Exception e) {
                 Mirage.clientLogger.error("Failed to load module: {}", clazz.getSimpleName());
 
-                if (Mirage.DEBUG) {
+                if (Mirage.debug) {
                     e.printStackTrace();
                 }
             }
@@ -49,4 +52,11 @@ public class ModuleManager implements IManagerLoadable {
     public List<Module> getModules() {
         return new ArrayList<>(modules.values());
     }
+
+    /**
+     * The event listener for key press events
+     */
+    private Listener<KeyPressEvent> keyPressListener = new Listener<>(event -> {
+        for (Module module : modules.values9)
+    });
 }

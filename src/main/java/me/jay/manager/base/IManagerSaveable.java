@@ -1,4 +1,4 @@
-package me.jay.api.manager;
+package me.jay.manager.base;
 
 /**
  * Implement this interface to allow a save() function upon exiting the client

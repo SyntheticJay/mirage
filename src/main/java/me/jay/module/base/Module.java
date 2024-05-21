@@ -1,15 +1,39 @@
-package me.jay.api.module;
+package me.jay.module.base;
 
 import me.jay.Mirage;
 import me.zero.alpine.listener.Subscriber;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.client.world.ClientWorld;
 
 public class Module implements Subscriber {
     /**
      * The instance of the Minecraft client
      */
     protected MinecraftClient mc = MinecraftClient.getInstance();
+
+    /**
+     * The instance of the player
+     */
+    protected ClientPlayerEntity player = mc.player;
+
+    /**
+     * The instance of the world
+     */
+    protected ClientWorld world = mc.world;
+
+    /**
+     * The instance of the network handler
+     */
+    protected ClientPlayNetworkHandler network = mc.getNetworkHandler();
+
+    /**
+     * The instance of the interaction manager
+     */
+    protected ClientPlayerInteractionManager interaction = mc.interactionManager;
 
     /**
      * Annotation containing information about the module

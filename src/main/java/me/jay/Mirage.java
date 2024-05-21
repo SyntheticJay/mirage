@@ -1,6 +1,6 @@
 package me.jay;
 
-import me.jay.manager.ModuleManager;
+import me.jay.manager.impl.ModuleManager;
 import me.zero.alpine.bus.EventBus;
 import me.zero.alpine.bus.EventManager;
 import net.fabricmc.api.ModInitializer;
@@ -17,7 +17,7 @@ public class Mirage implements ModInitializer {
 	/**
 	 * The debug mode for the client
 	 */
-	public static final boolean DEBUG = true;
+	public static final boolean debug = true;
 
 	/**
 	 * The logger for the client

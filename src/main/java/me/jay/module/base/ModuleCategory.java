@@ -1,4 +1,4 @@
-package me.jay.api.module;
+package me.jay.module.base;
 
 public enum ModuleCategory {
     COMBAT("Combat", 0xFF0000),

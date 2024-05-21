@@ -1,6 +1,4 @@
-package me.jay.api.module;
-
-import net.minecraft.client.option.KeyBinding;
+package me.jay.module.base;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
