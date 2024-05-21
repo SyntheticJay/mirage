@@ -5,6 +5,8 @@ import me.jay.event.client.KeyPressEvent;
 import me.jay.manager.base.IManagerLoadable;
 import me.jay.module.base.Module;
 import me.zero.alpine.listener.Listener;
+import me.zero.alpine.listener.Subscribe;
+import me.zero.alpine.listener.Subscriber;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
@@ -16,24 +18,32 @@ import java.util.List;
  *
  * @author Jay
  */
-public class ModuleManager implements IManagerLoadable {
+public class ModuleManager implements IManagerLoadable, Subscriber {
+    /**
+     * Constructor a new ModuleManager
+     */
+    public ModuleManager() {
+        Mirage.eventBus.subscribe(this);
+    }
+
     /**
      * A map of all the modules
      */
-    private final HashMap<Class<? extends Module>, Module> modules = new HashMap<>();
+    private final ArrayList<Module> modules = new ArrayList<>();
 
     /**
      * Init the ModuleManager
      */
     @Override
     public void load() {
-        final Reflections reflections = new Reflections("me.jay.module");
+        final Reflections reflections = new Reflections("me.jay.module.impl");
 
         for (Class<? extends Module> clazz : reflections.getSubTypesOf(Module.class)) {
+            Mirage.clientLogger.info("Loading module: {}", clazz.getSimpleName());
             try {
                 Module module = clazz.newInstance();
 
-                modules.put(clazz, module);
+                modules.add(module);
 
                 Mirage.clientLogger.info("Loaded module: {}", clazz.getSimpleName());
             } catch (Exception e) {
@@ -49,14 +59,15 @@ public class ModuleManager implements IManagerLoadable {
     /**
      * Get an array of all the modules
      */
-    public List<Module> getModules() {
-        return new ArrayList<>(modules.values());
+    public ArrayList<Module> getModules() {
+        return this.modules;
     }
 
     /**
      * The event listener for key press events
      */
+    @Subscribe
     private Listener<KeyPressEvent> keyPressListener = new Listener<>(event -> {
-        for (Module module : modules.values9)
+        this.modules.stream().filter(module -> module.getModuleInfo().defaultKeyBind() == event.getKey()).forEach(Module::toggle);
     });
 }

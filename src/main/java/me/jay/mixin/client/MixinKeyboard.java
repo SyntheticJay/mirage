@@ -17,8 +17,6 @@ public class MixinKeyboard {
     public void hookKeyboardKey(long window, int key, int scancode, int i, int j, CallbackInfo callback) {
         KeyPressEvent event = new KeyPressEvent(window, key, scancode, i, j);
 
-        Mirage.clientLogger.info("Key: {} Scancode: {} i: {} j: {}", key, scancode, i, j);
-
         Mirage.eventBus.post(event);
     }
 }

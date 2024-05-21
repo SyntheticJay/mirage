@@ -27,7 +27,7 @@ public class Mirage implements ModInitializer {
 	/**
 	 * The event bus for the client
 	 */
-	public static final EventBus eventBus = new EventManager("mirage");
+	public static final EventBus eventBus = EventManager.builder().setName("mirage").build();
 
 	/**
 	 * The module manager for the client
@@ -40,6 +40,7 @@ public class Mirage implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		this.moduleManager = new ModuleManager();
+		this.moduleManager.load();
 
 		Runtime.getRuntime().addShutdownHook(new Thread(this::onClientShutdown));
 	}
