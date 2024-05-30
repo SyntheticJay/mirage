@@ -7,11 +7,11 @@ import me.jay.module.base.Module;
 import me.zero.alpine.listener.Listener;
 import me.zero.alpine.listener.Subscribe;
 import me.zero.alpine.listener.Subscriber;
+import net.minecraft.client.MinecraftClient;
+import org.lwjgl.glfw.GLFW;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * A manager for all the modules
@@ -39,7 +39,6 @@ public class ModuleManager implements IManagerLoadable, Subscriber {
         final Reflections reflections = new Reflections("me.jay.module.impl");
 
         for (Class<? extends Module> clazz : reflections.getSubTypesOf(Module.class)) {
-            Mirage.clientLogger.info("Loading module: {}", clazz.getSimpleName());
             try {
                 Module module = clazz.newInstance();
 
@@ -68,6 +67,9 @@ public class ModuleManager implements IManagerLoadable, Subscriber {
      */
     @Subscribe
     private Listener<KeyPressEvent> keyPressListener = new Listener<>(event -> {
-        this.modules.stream().filter(module -> module.getModuleInfo().defaultKeyBind() == event.getKey()).forEach(Module::toggle);
+        boolean inGame = MinecraftClient.getInstance().world != null;
+        boolean pressed = event.i() == GLFW.GLFW_PRESS;
+
+        if (inGame && pressed) this.modules.stream().filter(m -> m.getModuleInfo().defaultKeyBind() == event.key()).forEach(Module::toggle);
     });
 }

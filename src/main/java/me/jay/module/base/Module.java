@@ -68,13 +68,11 @@ public class Module implements Subscriber {
      */
     public void setModuleState(boolean newModuleState) {
         if (newModuleState) {
-            Mirage.clientLogger.info("Enabling module: {}", this.moduleInfo.name());
             this.moduleState = true;
             this.onEnable();
 
             Mirage.eventBus.subscribe(this);
         } else {
-            Mirage.clientLogger.info("Disabling module: {}", this.moduleInfo.name());
             this.moduleState = false;
             this.onDisable();
 
@@ -86,7 +84,11 @@ public class Module implements Subscriber {
      * Toggle the module state
      */
     public void toggle() {
-        setModuleState(!this.moduleState);
+        boolean newState = !this.moduleState;
+
+        Mirage.clientLogger.info("Toggled module {} to {}", this.moduleInfo.name(), newState ? "enabled" : "disabled");
+
+        setModuleState(newState);
     }
 
     /**

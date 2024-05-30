@@ -32,14 +32,20 @@ public class Mirage implements ModInitializer {
 	/**
 	 * The module manager for the client
 	 */
-	private ModuleManager moduleManager;
+	private final ModuleManager moduleManager;
+
+	/**
+	 * The constructor for the client
+	 */
+	public Mirage() {
+		this.moduleManager = new ModuleManager();
+	}
 
 	/**
 	 * Fired when the client is initialized
 	 */
 	@Override
 	public void onInitialize() {
-		this.moduleManager = new ModuleManager();
 		this.moduleManager.load();
 
 		Runtime.getRuntime().addShutdownHook(new Thread(this::onClientShutdown));
@@ -49,7 +55,7 @@ public class Mirage implements ModInitializer {
 	 * Fired when the client is shutting down
 	 */
 	public void onClientShutdown() {
-
+		//
 	}
 
 	/**
