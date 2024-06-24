@@ -47,11 +47,15 @@ public class MirageModule implements Subscriber {
     public void setModuleState(boolean newModuleState) {
         if (newModuleState) {
             Mirage.eventBus.subscribe(this);
+
             this.moduleState = true;
+
             this.onEnable();
         } else {
             Mirage.eventBus.unsubscribe(this);
+
             this.moduleState = false;
+
             this.onDisable();
         }
     }
