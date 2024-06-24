@@ -1,6 +1,8 @@
 package me.jay;
 
-import me.jay.manager.impl.ModuleManager;
+import me.jay.command.CommandManager;
+import me.jay.module.ModuleManager;
+import me.jay.value.ValueManager;
 import me.zero.alpine.bus.EventBus;
 import me.zero.alpine.bus.EventManager;
 import net.fabricmc.api.ModInitializer;
@@ -14,56 +16,71 @@ import org.slf4j.LoggerFactory;
  * @author Jay
  */
 public class Mirage implements ModInitializer {
-	/**
-	 * The debug mode for the client
-	 */
-	public static final boolean debug = true;
+	private static Mirage instance;
 
 	/**
-	 * The logger for the client
+	 * Constants
 	 */
-    public static final Logger clientLogger = LoggerFactory.getLogger("mirage");
+	public static final String CLIENT_NAME = "Mirage";
 
 	/**
-	 * The event bus for the client
+	 * The logger
 	 */
-	public static final EventBus eventBus = EventManager.builder().setName("mirage").build();
+    public static final Logger clientLogger = LoggerFactory.getLogger(CLIENT_NAME);
 
 	/**
-	 * The module manager for the client
+	 * The event bus
 	 */
-	private final ModuleManager moduleManager;
+	public static final EventBus eventBus = EventManager.builder()
+			.setName(CLIENT_NAME)
+			.build();
 
 	/**
-	 * The constructor for the client
+	 * The module manager
+	 */
+	public final ModuleManager moduleManager = new ModuleManager();
+
+	/**
+	 * The value manager
+	 */
+	public final ValueManager valueManager = new ValueManager();
+
+	/**
+	 * The command manager
+	 */
+	public final CommandManager commandManager = new CommandManager();
+
+	/**
+	 * Construct a new Mirage instance
 	 */
 	public Mirage() {
-		this.moduleManager = new ModuleManager();
+		instance = this;
 	}
 
 	/**
-	 * Fired when the client is initialized
+	 * Fires when the client is initialized
 	 */
 	@Override
 	public void onInitialize() {
 		this.moduleManager.load();
+		this.commandManager.load();
 
 		Runtime.getRuntime().addShutdownHook(new Thread(this::onClientShutdown));
 	}
 
 	/**
-	 * Fired when the client is shutting down
+	 * Fires when the client is shutdown
 	 */
 	public void onClientShutdown() {
 		//
 	}
 
 	/**
-	 * Gets the module manager for the client
+	 * Get the instance of Mirage
 	 *
-	 * @return the module manager
+	 * @return The instance of Mirage
 	 */
-	public ModuleManager getModuleManager() {
-		return moduleManager;
+	public static Mirage getInstance() {
+		return instance;
 	}
 }

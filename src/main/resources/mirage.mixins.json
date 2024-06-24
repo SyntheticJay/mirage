@@ -7,6 +7,9 @@
     "defaultRequire": 1
   },
   "client": [
-    "client.MixinKeyboard"
+    "client.ChatScreenMixin",
+    "client.MinecraftClientMixin",
+    "client.MixinKeyboard",
+    "render.InGameHudMixin"
   ]
 }

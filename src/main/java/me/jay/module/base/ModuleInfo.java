@@ -3,11 +3,6 @@ package me.jay.module.base;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/**
- * An annotation to provide information about a module
- *
- * @author Jay
- */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ModuleInfo {
     /**

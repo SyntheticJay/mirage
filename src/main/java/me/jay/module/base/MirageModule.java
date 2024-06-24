@@ -4,41 +4,17 @@ import me.jay.Mirage;
 import me.zero.alpine.listener.Subscriber;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.client.world.ClientWorld;
 
-public class Module implements Subscriber {
+public class MirageModule implements Subscriber {
     /**
      * The instance of the Minecraft client
      */
     protected MinecraftClient mc = MinecraftClient.getInstance();
 
     /**
-     * The instance of the player
-     */
-    protected ClientPlayerEntity player = mc.player;
-
-    /**
-     * The instance of the world
-     */
-    protected ClientWorld world = mc.world;
-
-    /**
-     * The instance of the network handler
-     */
-    protected ClientPlayNetworkHandler network = mc.getNetworkHandler();
-
-    /**
-     * The instance of the interaction manager
-     */
-    protected ClientPlayerInteractionManager interaction = mc.interactionManager;
-
-    /**
      * Annotation containing information about the module
      */
-    private final ModuleInfo moduleInfo = getClass().getAnnotation(ModuleInfo.class);
+    private final ModuleInfo moduleInfo;
 
     /**
      * The state of the module (enabled or disabled)
@@ -46,12 +22,14 @@ public class Module implements Subscriber {
     private boolean moduleState;
 
     /**
-     * Module constructor
+     * MirageModule constructor
      */
-    public Module() {
+    public MirageModule() {
         if (!getClass().isAnnotationPresent(ModuleInfo.class)) {
             throw new IllegalStateException("Module class must have ModuleInfo annotation");
         }
+
+        this.moduleInfo = getClass().getAnnotation(ModuleInfo.class);
     }
 
     /**
@@ -68,15 +46,13 @@ public class Module implements Subscriber {
      */
     public void setModuleState(boolean newModuleState) {
         if (newModuleState) {
+            Mirage.eventBus.subscribe(this);
             this.moduleState = true;
             this.onEnable();
-
-            Mirage.eventBus.subscribe(this);
         } else {
+            Mirage.eventBus.unsubscribe(this);
             this.moduleState = false;
             this.onDisable();
-
-            Mirage.eventBus.unsubscribe(this);
         }
     }
 
@@ -85,8 +61,6 @@ public class Module implements Subscriber {
      */
     public void toggle() {
         boolean newState = !this.moduleState;
-
-        Mirage.clientLogger.info("Toggled module {} to {}", this.moduleInfo.name(), newState ? "enabled" : "disabled");
 
         setModuleState(newState);
     }
