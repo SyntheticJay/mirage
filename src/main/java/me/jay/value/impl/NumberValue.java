@@ -49,6 +49,7 @@ public class NumberValue<T extends Number> extends Value<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void fromJsonObject(JsonObject jsonObject) {
         if (!jsonObject.has(getName())) {
             throw new IllegalArgumentException("Supposed number value entry " + getName() + " is not present in the JsonObject.");
@@ -60,19 +61,15 @@ public class NumberValue<T extends Number> extends Value<T> {
             if (!primitive.isNumber()) {
                 throw new IllegalArgumentException("Supposed number value entry " + getName() + " is not a of number value.");
             }
-
             if (getObject() instanceof Integer) {
                 setObject((T) Integer.valueOf(jsonObject.get(getName()).getAsNumber().intValue()));
             }
-
             if (getObject() instanceof Long) {
                 setObject((T) Long.valueOf(jsonObject.get(getName()).getAsNumber().longValue()));
             }
-
             if (getObject() instanceof Float) {
                 setObject((T) Float.valueOf(jsonObject.get(getName()).getAsNumber().floatValue()));
             }
-
             if (getObject() instanceof Double) {
                 setObject((T) Double.valueOf(jsonObject.get(getName()).getAsNumber().doubleValue()));
             }
