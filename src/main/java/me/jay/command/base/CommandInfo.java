@@ -17,5 +17,19 @@ public @interface CommandInfo {
      *
      * @return The description of the command
      */
+    String description();
+
+    /**
+     * The usage of the command
+     *
+     * @return The usage of the command
+     */
+    String arguments() default "";
+
+    /**
+     * The aliases of the command
+     *
+     * @return The aliases of the command
+     */
     String[] aliases() default {};
 }

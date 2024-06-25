@@ -1,5 +1,7 @@
 package me.jay.module.base;
 
+import org.lwjgl.glfw.GLFW;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -23,7 +25,7 @@ public @interface ModuleInfo {
     /**
      * The default key-bind of the module
      */
-    int defaultKeyBind() default -1;
+    int defaultKeyBind() default GLFW.GLFW_KEY_UNKNOWN;
 
     /**
      * Determine if the module is visable in the GUI

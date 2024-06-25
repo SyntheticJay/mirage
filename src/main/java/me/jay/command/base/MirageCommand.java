@@ -1,10 +1,26 @@
 package me.jay.command.base;
 
+import me.jay.Mirage;
+import me.jay.command.base.exception.InvalidSyntaxException;
+import net.minecraft.client.MinecraftClient;
+
+import java.util.ArrayList;
+
 public abstract class MirageCommand {
     /**
      * The command information
      */
     private final CommandInfo commandInfo;
+
+    /**
+     * The Minecraft client instance
+     */
+    protected MinecraftClient mc = MinecraftClient.getInstance();
+
+    /**
+     * The Mirage instance
+     */
+    protected Mirage mirage = Mirage.getInstance();
 
     /**
      * Construct a new MirageCommand instance
@@ -18,21 +34,6 @@ public abstract class MirageCommand {
     }
 
     /**
-     * Determine if the input matches the command
-     *
-     * @param input The input
-     *
-     * @return Whether the input matches the command
-     */
-    public boolean hasMatch(String input) {
-        for (String alias : commandInfo.aliases()) {
-            if (alias.equalsIgnoreCase(input)) return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Get the command information
      *
      * @return The command information
@@ -43,8 +44,6 @@ public abstract class MirageCommand {
 
     /**
      * Fire the command
-     *
-     * @param args The arguments
      */
-    public abstract void fire(String[] args);
+    public abstract void handle(String... args) throws InvalidSyntaxException;
 }

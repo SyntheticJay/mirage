@@ -73,6 +73,22 @@ public class ModuleManager implements Subscriber {
     }
 
     /**
+     * Get a module by it's name
+     *
+     * @param moduleName The module name
+     *
+     * @return The module
+     */
+    public MirageModule getModuleByName(String moduleName) {
+        return this.moduleMap.values()
+                .stream()
+                .flatMap(ArrayList::stream)
+                .filter(m -> m.getModuleInfo().name().equalsIgnoreCase(moduleName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
      * The event listener for key press events
      */
     @Subscribe
