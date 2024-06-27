@@ -12,7 +12,7 @@ public class ModeValue extends Value<Integer> {
     /**
      * The available modes
      */
-    private String[] modes;
+    private final String[] modes;
 
     /**
      * Construct a new ModeValue instance
@@ -63,6 +63,7 @@ public class ModeValue extends Value<Integer> {
 
             if (mode.equalsIgnoreCase(s)) object = i;
         }
+
         if (object == -1) throw new IllegalArgumentException("Value '" + object + "' wasn't found");
 
         setObject(object);

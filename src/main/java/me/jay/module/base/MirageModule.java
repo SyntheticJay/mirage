@@ -12,6 +12,11 @@ public class MirageModule implements Subscriber {
     protected MinecraftClient mc = MinecraftClient.getInstance();
 
     /**
+     * The instance of the Mirage client
+     */
+    protected Mirage mirage = Mirage.getInstance();
+
+    /**
      * Annotation containing information about the module
      */
     private final ModuleInfo moduleInfo;
@@ -20,6 +25,11 @@ public class MirageModule implements Subscriber {
      * The state of the module (enabled or disabled)
      */
     private boolean moduleState;
+
+    /**
+     * The suffix of the module
+     */
+    private String suffix;
 
     /**
      * MirageModule constructor
@@ -58,6 +68,24 @@ public class MirageModule implements Subscriber {
 
             this.onDisable();
         }
+    }
+
+    /**
+     * Get the module suffix
+     *
+     * @return the module suffix
+     */
+    public String getSuffix() {
+        return this.suffix;
+    }
+
+    /**
+     * Set the module suffix
+     *
+     * @param suffix the new module suffix
+     */
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 
     /**

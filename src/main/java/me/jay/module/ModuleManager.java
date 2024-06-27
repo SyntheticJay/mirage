@@ -73,7 +73,7 @@ public class ModuleManager implements Subscriber {
     }
 
     /**
-     * Get a module by it's name
+     * Get a module by its name
      *
      * @param moduleName The module name
      *
@@ -86,6 +86,17 @@ public class ModuleManager implements Subscriber {
                 .filter(m -> m.getModuleInfo().name().equalsIgnoreCase(moduleName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Get an array of all the active modules
+     */
+    public ArrayList<MirageModule> getActiveModules() {
+        return this.moduleMap.values()
+                .stream()
+                .flatMap(ArrayList::stream)
+                .filter(MirageModule::isEnabled)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
     /**
